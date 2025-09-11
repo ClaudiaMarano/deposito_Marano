@@ -3,7 +3,6 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import classification_report
 from sklearn.model_selection import train_test_split
-import matplotlib.pyplot as plt
 
 
 ### Caricamento del dataset Iris
@@ -50,6 +49,7 @@ print(classification_report(y_test, y_pred, digits=3))
 
 # Stampo le prime 5 righe
 print(df.head())
+
 
 
 
