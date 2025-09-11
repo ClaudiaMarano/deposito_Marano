@@ -86,3 +86,58 @@ test_accuracy = accuracy_score(y_test, y_test_pred)
 print(f"Accuracy (Test): {test_accuracy:.3f}\n")
 
 
+"""
+OUTPUT ATTESO:
+
+Valutazione sul Validation set per Decision Tree:
+                 precision    recall  f1-score   support
+
+    Iris-setosa      1.000     1.000     1.000         8
+Iris-versicolor      0.889     1.000     0.941         8
+ Iris-virginica      1.000     0.857     0.923         7
+
+       accuracy                          0.957        23
+      macro avg      0.963     0.952     0.955        23
+   weighted avg      0.961     0.957     0.956        23
+
+
+Valutazione sul Test set per Decision Tree:
+                 precision    recall  f1-score   support
+
+    Iris-setosa      1.000     1.000     1.000         7
+Iris-versicolor      0.778     0.875     0.824         8
+ Iris-virginica      0.857     0.750     0.800         8
+
+       accuracy                          0.870        23
+      macro avg      0.878     0.875     0.875        23
+   weighted avg      0.873     0.870     0.869        23
+
+
+Accuracy (Test) per Decision Tree: 0.870
+Valutazione sul Validation set per Random Forest:
+                 precision    recall  f1-score   support
+
+    Iris-setosa      1.000     1.000     1.000         8
+Iris-versicolor      0.889     1.000     0.941         8
+ Iris-virginica      1.000     0.857     0.923         7
+
+       accuracy                          0.957        23
+      macro avg      0.963     0.952     0.955        23
+   weighted avg      0.961     0.957     0.956        23
+
+Accuracy (Validation): 0.957
+
+Valutazione sul Test set per Random Forest:
+                 precision    recall  f1-score   support
+
+    Iris-setosa      1.000     1.000     1.000         7
+Iris-versicolor      0.875     0.875     0.875         8
+ Iris-virginica      0.875     0.875     0.875         8
+
+       accuracy                          0.913        23
+      macro avg      0.917     0.917     0.917        23
+   weighted avg      0.913     0.913     0.913        23
+
+Accuracy (Test): 0.913
+
+"""
