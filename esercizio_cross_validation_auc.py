@@ -26,4 +26,12 @@ skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
 tree = DecisionTreeClassifier(max_depth=5, random_state=42)
 cross_tree = cross_val_score(tree, X, y, cv=skf)
 
+
 print(f"Decision Tree AUC: {cross_tree.mean():.3f} ± {cross_tree.std():.3f}")
+
+
+"""
+OUTPUT ATTESO:
+Decision Tree AUC: 0.947 ± 0.027
+
+"""
