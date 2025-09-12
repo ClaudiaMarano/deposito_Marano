@@ -4,7 +4,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.metrics import classification_report, accuracy_score
+from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
 
@@ -133,7 +133,8 @@ Matrice di confusione:
  [  6   3  18  20  32  18   5  22  23 691]]
 
  Da questa analisi si osserva che l'uso della PCA per la riduzione dimensionale ha portato a una diminuzione dell'accuratezza del modello.
- In questo caso specifico l'utilizzo della PCA non ha portato un miglioramento significativo delle prestazioni del modello. Probabilmente perchè nel caso degli alberi decisionali questi
- non soffrono molto della dimensionalità, quindi in questo caso la PCA ha portato una minima perdita di informazione.
+ In questo caso specifico l'utilizzo della PCA non ha portato un miglioramento significativo delle prestazioni del modello. Probabilmente perchè nel caso degli alberi decisionali,
+ questi non soffrono molto della dimensionalità, quindi in questo caso la PCA ha portato una minima perdita di informazione. Gli alberi 
+ intrinsecamente selezionano le feature più rilevanti per le loro decisioni, quindi la riduzione della dimensionalità non sempre migliora le prestazioni.
 
 """
