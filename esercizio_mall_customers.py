@@ -72,5 +72,12 @@ plt.tight_layout()
 plt.show()
 
 
+"""
+Il Cluster in giallo indica la presenza di clienti che spendono molto, nonostante il reddito basso, e che quindi indica un atteggiamento inatteso. 
+Il Cluster è composto da clienti con un reddito basso, ma che effettua meno acquisti rispetto al cluster precedente.
+Il Cluster viola indica un gruppo di persone con reddito limitato e che, in quanto tale, che effettua spese limitate. 
+Il cluster verde è composto da un gruppo di persone con alto reddito e che effettua molti acquisti. 
+"""
+
 
 
