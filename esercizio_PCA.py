@@ -1,10 +1,12 @@
 import pandas as pd
+import numpy as np
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import classification_report, accuracy_score
 from sklearn.metrics import confusion_matrix
+import matplotlib.pyplot as plt
 
 ### Caricamento del dataset Digit Recognizer
 
@@ -69,17 +71,35 @@ print(confusion_matrix(y_test, y_test_pred))
 
 ### Training di un DecisionTreeClassifier sui dati originali (non ridotti)
 
+X_train_orig, X_test_orig, y_train_orig, y_test_orig = train_test_split(
+    X, y, test_size=0.2, stratify=y, random_state=42
+)
+
 # Alleno un DecisionTreeClassifier sui dati originali (non ridotti)
 tree_orig = DecisionTreeClassifier(max_depth=10, random_state=42)
-tree_orig.fit(X_train, y_train)
-y_test_pred_orig = tree_orig.predict(X_test)
+tree_orig.fit(X_train_orig, y_train_orig)
+y_test_pred_orig = tree_orig.predict(X_test_orig)
 
 # Valutazione sul test set: accuracy e matrice di confusione
 
-accuracy_orig = accuracy_score(y_test, y_test_pred_orig)
+# Valutazione sul test set dati originali
+accuracy_orig = accuracy_score(y_test_orig, y_test_pred_orig)
 print(f"\nAccuratezza per Decision Tree con dati originali: {accuracy_orig:.3f}")
 print("Matrice di confusione:")
-print(confusion_matrix(y_test, y_test_pred_orig))
+print(confusion_matrix(y_test_orig, y_test_pred_orig))
+
+
+### Plot della varianza spiegata
+# Varianza spiegata da ciascuna componente
+explained_variance = pca.explained_variance_ratio_
+
+plt.figure(figsize=(10,5))
+plt.plot(np.cumsum(explained_variance), marker='o')
+plt.xlabel('Numero di componenti')
+plt.ylabel('Varianza cumulativa spiegata')
+plt.title('Varianza cumulativa spiegata dalla PCA')
+plt.grid(True)
+plt.show()
 
 
 """
