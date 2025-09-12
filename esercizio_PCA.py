@@ -133,6 +133,7 @@ Matrice di confusione:
  [  4   4   9  28  66  14   5  52  12 644]]
 
  Da questa analisi risulta evidente che l'uso della PCA non ha migliorato l'accuratezza del modello di Decision Tree. In questo caso specifico
- l'utilizzo della PCA non ha portato un miglioramento significativo delle prestazioni del modello.
+ l'utilizzo della PCA non ha portato un miglioramento significativo delle prestazioni del modello. Probabilmente perchè nel caso degli alberi decisionali questi
+ non soffrono molto della dimensionalità, quindi in questo caso la PCA ha portato una minima perdita di informazione.
 
 """
