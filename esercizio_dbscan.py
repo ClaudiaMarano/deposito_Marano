@@ -81,4 +81,7 @@ plt.show()
 
 """
 Interpretazione dei risultati del clustering con Dbscan:
-L'algoritmo ha identidicato 2 cluster nei dati. Tramite una rappresentazione 2D i cluster risultano sovrapposti. """
+L'algoritmo ha identidicato 2 cluster nei dati, con 13 outlier (etichettati con -1). 
+Tramite una rappresentazione 2D i cluster risultano sovrapposti. Per ottenere informazioni più utili e cluster ben distinti sarebbe opportuno
+visualizzare i dati in 3D o utilizzare tecniche di riduzione della dimensionalità come PCA.
+"""
