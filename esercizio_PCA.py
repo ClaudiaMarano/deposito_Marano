@@ -119,21 +119,21 @@ Matrice di confusione:
  [  8   5  39  71  28  68   8  16 542  28]
  [  4   4   9  28  66  14   5  52  12 644]]
 
-Accuratezza per Decision Tree con dati originali: 0.783
+Accuratezza per Decision Tree con dati originali: 0.848
 Matrice di confusione:
-[[692   0  16   7  13  48  21   6   8  16]
- [  0 857  20  21   5  13   6   4  10   1]
- [  9   2 661  16  25   9  26  13  59  15]
- [  6   8  67 620  12  58  14   8  70   7]
- [  7   4  11  23 604  12  17  18  23  95]
- [ 14   0  23  67  31 523  17  17  44  23]
- [ 10   0  15   5  21  15 748   0  10   3]
- [  6   4  16   9  26  19   0 685  23  92]
- [  8   5  39  71  28  68   8  16 542  28]
- [  4   4   9  28  66  14   5  52  12 644]]
+[[756   0  12   5   3  15  13   5  12   6]
+ [  0 879   5  11  13   4   4   7  10   4]
+ [  9  13 689  23  18   9  11  22  34   7]
+ [  9  14  29 686  11  39   6  23  31  22]
+ [  4   6   9   3 697   5   8  11  21  50]
+ [ 10   6   8  37  14 591  25   5  35  28]
+ [ 10   6   9   6  20  23 732   2  15   4]
+ [  1  10  18  11  14   7   0 779   9  31]
+ [  4  29  24  28  17  30  18  14 619  30]
+ [  6   3  18  20  32  18   5  22  23 691]]
 
- Da questa analisi risulta evidente che l'uso della PCA non ha migliorato l'accuratezza del modello di Decision Tree. In questo caso specifico
- l'utilizzo della PCA non ha portato un miglioramento significativo delle prestazioni del modello. Probabilmente perchè nel caso degli alberi decisionali questi
+ Da questa analisi si osserva che l'uso della PCA per la riduzione dimensionale ha portato a una diminuzione dell'accuratezza del modello.
+ In questo caso specifico l'utilizzo della PCA non ha portato un miglioramento significativo delle prestazioni del modello. Probabilmente perchè nel caso degli alberi decisionali questi
  non soffrono molto della dimensionalità, quindi in questo caso la PCA ha portato una minima perdita di informazione.
 
 """
