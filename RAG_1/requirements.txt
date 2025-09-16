@@ -1,0 +1,22 @@
+# Core
+python-dotenv>=1.0.0
+dataclasses>=0.6
+pathlib>=1.0.1
+
+# LangChain
+langchain>=0.2.12
+langchain-openai>=0.0.8
+langchain-community>=0.0.9
+langchain-core>=0.0.5
+
+# LLM Studio / OpenAI API
+openai>=1.33.0
+
+# FAISS
+faiss-cpu>=1.7.4
+
+# Text splitting
+tiktoken>=0.4.0
+
+# Optional utilities
+typing-extensions>=4.0.0
