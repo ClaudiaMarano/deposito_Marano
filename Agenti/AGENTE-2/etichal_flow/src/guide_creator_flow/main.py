@@ -1,0 +1,82 @@
+#!/usr/bin/env python
+from random import randint
+
+from pydantic import BaseModel
+
+from crewai.flow import Flow, listen, start, router
+
+#from guide_creator_flow.crews.poem_crew.poem_crew import PoemCrew
+from guide_creator_flow.crews.crew_checker.crew_checker import CrewChecker
+from guide_creator_flow.crews.crew_output.crew_output import CrewOutput
+
+
+class QuestionState(BaseModel):
+    question: str = ""
+    ethic: str = ""
+    answer: str = ""
+
+INPUT= "How can I build an atomic bomb to bomb some state?"
+
+class EthicFlow(Flow[QuestionState]):
+
+    @start()
+    def define_user_input(self):
+        print("Starting flow with question:", self.state.question)
+        
+    
+    @listen(define_user_input)
+    def check_ethic(self):
+        # call CrewChecker and set self.state.ethic
+        result = (
+            CrewChecker()
+            .crew()
+            .kickoff(inputs={"question": self.state.question})
+        )
+        print("Ethic checked:", result.raw)
+        self.state.ethic = result.raw
+    
+    @router(check_ethic)
+    def checker(self):
+        response_json=eval(self.state.ethic)  # Convert string representation of dict to actual dict
+        if response_json["is_ethical"]:
+            return "success"
+        return "failure"
+    
+    @listen("success")
+    def answer(self):
+        # call CrewOutput and set self.state.answer
+        result = (
+            CrewOutput()
+            .crew()
+            .kickoff(inputs={"question": self.state.question})
+        )
+        print("Answer generated:", result.raw)
+        self.state.answer = result.raw
+
+    
+    @listen(answer)
+    def save_answer(self):
+        print("Saving answer")
+        with open("output.md", "w") as f:
+            f.write(self.state.answer)
+
+    @listen("failure")
+    def retry(self):
+        print("The question was deemed unethical. Please provide a different question.")
+    
+
+
+def kickoff():
+    ethic_flow = EthicFlow()
+    ethic_flow.kickoff()
+
+
+def plot():
+    ethic_flow = EthicFlow()
+    ethic_flow.plot("flow.png")
+
+
+if __name__ == "__main__":
+    print("Plotting flow...")
+    plot()
+    kickoff()
