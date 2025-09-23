@@ -1,0 +1,15 @@
+professor_task:
+  description: >
+    Convert e solve the mathematical function {function} step by step.
+  expected_output: >
+    A detailed step-by-step solution of the mathematical function {function} along with the final answer.
+    
+  agent: maths_professor
+
+assistant_task:
+  description: >
+    Assist the math professor in solving the mathematical expression provided.
+  expected_output: >
+    A clear and concise solution to the mathematical expression provided by the math professor.
+    
+  agent: assistant

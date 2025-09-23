@@ -1,0 +1,6 @@
+write_research:
+  description: >
+    Write a step-by-step research about the {topic} you received in input.
+  expected_output: >
+    A bullet points list with the step-by-step research about the {topic}.
+  agent: writer

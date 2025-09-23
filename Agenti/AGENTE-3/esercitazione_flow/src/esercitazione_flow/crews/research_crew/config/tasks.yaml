@@ -1,0 +1,11 @@
+research_task:
+  description: >
+    Conduct a thorough research about {topic}
+    You have to analyze every bullet-point given by the writer in the {document}
+    and expand them with the latest research findings, ensuring each point is backed by credible sources.
+  expected_output: >
+    A document with a deep description of each bullet point given by the writer. Be sure to cover each point.
+  agent: researcher
+  output_file: output/answer.md
+
+

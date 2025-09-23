@@ -11,13 +11,14 @@ class QuestionState(BaseModel):
     ethic: bool | None = None
     answer: str = ""
 
-#INPUT = "Who is the highest man in the world?"
+INPUT = "Who is the highest man in the world?"
 
 class EthicFlow(Flow[QuestionState]):
 
-    @start()
+    
+    @start()  # Cambia con @start("restart")
     def define_user_input(self):
-        INPUT=input("Inserisci la tua domanda: ")
+        #INPUT=input("Inserisci la tua domanda: ")
         self.state.question = INPUT
         print("Starting flow with question:", self.state.question)
         
@@ -57,6 +58,7 @@ class EthicFlow(Flow[QuestionState]):
         with open("output.md", "w") as f:
             f.write(self.state.answer)
 
+    # Cambia il listen con un router che ascolta "restart"
     @listen("failure")
     def retry(self):
         print("The question was deemed unethical. Please provide a different question.")

@@ -4,7 +4,7 @@ judge_task:
   expected_output: >
     Respond with a JSON object with two fields:
     {
-      "is_ethical": True/False,  // True if the question is ethical, False if unethical
+      "is_ethical": boolean
       "explanation": "Your explanation here"  // A brief explanation of your reasoning
     }
   agent: judge
