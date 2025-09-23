@@ -20,3 +20,12 @@ Per effettuare il run del progetto:
 ```
 crewai runcrewai 
 ```
+
+Creazione di un flusso:
+```
+crewai create flow nome_flow
+```
+Aggiunta di una crew al flusso:
+```
+crewai flow add-crew nome_crew
+```
