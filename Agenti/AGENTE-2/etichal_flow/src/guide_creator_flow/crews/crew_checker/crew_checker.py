@@ -1,10 +1,16 @@
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
+from pydantic import BaseModel
 from typing import List
 # If you want to run a snippet of code before or after the crew starts,
 # you can use the @before_kickoff and @after_kickoff decorators
 # https://docs.crewai.com/concepts/crews#example-crew-class-with-decorators
+
+class EthicOutput(BaseModel):
+    is_ethical: bool
+    explanation: str
+
 
 @CrewBase
 class CrewChecker():
@@ -32,7 +38,8 @@ class CrewChecker():
     @task
     def judge_task(self) -> Task:
         return Task(
-            config=self.tasks_config['judge_task'], # type: ignore[index]
+            config=self.tasks_config['judge_task'],
+            output_pydantic=EthicOutput # type: ignore[index]
         )
     
     @crew

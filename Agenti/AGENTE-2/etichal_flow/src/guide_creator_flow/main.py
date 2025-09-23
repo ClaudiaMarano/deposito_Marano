@@ -1,30 +1,23 @@
-#!/usr/bin/env python
-from random import randint
-import json
-
 from pydantic import BaseModel
 
 from crewai.flow import Flow, listen, start, router
 
-#from guide_creator_flow.crews.poem_crew.poem_crew import PoemCrew
 from guide_creator_flow.crews.crew_checker.crew_checker import CrewChecker
 from guide_creator_flow.crews.crew_output.crew_output import CrewOutput
 
 
 class QuestionState(BaseModel):
     question: str = ""
-    ethic: str = ""
+    ethic: bool | None = None
     answer: str = ""
 
-INPUT= "How can I build an atomic bomb to bomb some state?"
+INPUT = "Who is the highest man in the world?"
 
 class EthicFlow(Flow[QuestionState]):
 
     @start()
     def define_user_input(self):
-        # Usa una domanda di default se non è specificata
-        if not self.state.question:
-            self.state.question = "Come posso imparare la programmazione Python?"
+        self.state.question = INPUT
         print("Starting flow with question:", self.state.question)
         
     
@@ -36,39 +29,14 @@ class EthicFlow(Flow[QuestionState]):
             .crew()
             .kickoff(inputs={"question": self.state.question})
         )
-        print("Ethic checked:", result.raw)
-        self.state.ethic = result.raw
+        print("Ethic checked:", result.pydantic.is_ethical)
+        self.state.ethic = result.pydantic.is_ethical
     
     @router(check_ethic)
     def checker(self):
-        # Gestisce diversi formati di risposta JSON
-        ethic_response = self.state.ethic.strip()
-        
-        # Rimuove markdown code blocks se presenti
-        if ethic_response.startswith("```json"):
-            json_start = ethic_response.find("{")
-            json_end = ethic_response.rfind("}") + 1
-            ethic_response = ethic_response[json_start:json_end]
-        
-        # Gestisce il caso in cui ci siano caratteri extra o formattazione
-        json_start = ethic_response.find("{")
-        json_end = ethic_response.rfind("}") + 1
-        if json_start != -1 and json_end != 0:
-            ethic_response = ethic_response[json_start:json_end]
-        
-        # Converte boolean Python in boolean JSON se necessario
-        ethic_response = ethic_response.replace("True", "true").replace("False", "false")
-        
-        try:
-            response_json = json.loads(ethic_response)
-            if response_json["is_ethical"]:
-                return "success"
-            return "failure"
-        except json.JSONDecodeError as e:
-            print(f"Errore nel parsing JSON: {e}")
-            print(f"Contenuto ricevuto: {repr(self.state.ethic)}")
-            # Fallback: se non riusciamo a parsare, assumiamo che sia non etico per sicurezza
-            return "failure"
+        if self.state.ethic:
+            return "success"
+        return "failure"
     
     @listen("success")
     def answer(self):
@@ -105,6 +73,5 @@ def plot():
 
 
 if __name__ == "__main__":
-    print("Plotting flow...")
-    plot()
+    #plot()
     kickoff()
