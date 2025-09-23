@@ -11,12 +11,13 @@ class QuestionState(BaseModel):
     ethic: bool | None = None
     answer: str = ""
 
-INPUT = "Who is the highest man in the world?"
+#INPUT = "Who is the highest man in the world?"
 
 class EthicFlow(Flow[QuestionState]):
 
     @start()
     def define_user_input(self):
+        INPUT=input("Inserisci la tua domanda: ")
         self.state.question = INPUT
         print("Starting flow with question:", self.state.question)
         
