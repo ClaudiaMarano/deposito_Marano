@@ -1,5 +1,5 @@
 # Creazione di Agenti con Crewai
-Installazione:
+Installazione su Windows:
 
 ```
 powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
