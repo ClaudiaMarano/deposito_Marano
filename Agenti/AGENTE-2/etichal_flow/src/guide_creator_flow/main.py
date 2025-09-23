@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 from random import randint
+import json
 
 from pydantic import BaseModel
 
@@ -21,6 +22,9 @@ class EthicFlow(Flow[QuestionState]):
 
     @start()
     def define_user_input(self):
+        # Usa una domanda di default se non è specificata
+        if not self.state.question:
+            self.state.question = "Come posso imparare la programmazione Python?"
         print("Starting flow with question:", self.state.question)
         
     
@@ -37,10 +41,34 @@ class EthicFlow(Flow[QuestionState]):
     
     @router(check_ethic)
     def checker(self):
-        response_json=eval(self.state.ethic)  # Convert string representation of dict to actual dict
-        if response_json["is_ethical"]:
-            return "success"
-        return "failure"
+        # Gestisce diversi formati di risposta JSON
+        ethic_response = self.state.ethic.strip()
+        
+        # Rimuove markdown code blocks se presenti
+        if ethic_response.startswith("```json"):
+            json_start = ethic_response.find("{")
+            json_end = ethic_response.rfind("}") + 1
+            ethic_response = ethic_response[json_start:json_end]
+        
+        # Gestisce il caso in cui ci siano caratteri extra o formattazione
+        json_start = ethic_response.find("{")
+        json_end = ethic_response.rfind("}") + 1
+        if json_start != -1 and json_end != 0:
+            ethic_response = ethic_response[json_start:json_end]
+        
+        # Converte boolean Python in boolean JSON se necessario
+        ethic_response = ethic_response.replace("True", "true").replace("False", "false")
+        
+        try:
+            response_json = json.loads(ethic_response)
+            if response_json["is_ethical"]:
+                return "success"
+            return "failure"
+        except json.JSONDecodeError as e:
+            print(f"Errore nel parsing JSON: {e}")
+            print(f"Contenuto ricevuto: {repr(self.state.ethic)}")
+            # Fallback: se non riusciamo a parsare, assumiamo che sia non etico per sicurezza
+            return "failure"
     
     @listen("success")
     def answer(self):
