@@ -1,0 +1,10 @@
+rag_task:
+  description: >
+    Retrieve information from the provided context {context} . 
+    Eventually, retrieve information from web if needed.
+    Merge the retrieved information from web and context to answer the question {query}.
+
+  expected_output: >
+    An answer related to the question: {query}.
+  agent: rag_agent
+  output_file: output/answer.md
