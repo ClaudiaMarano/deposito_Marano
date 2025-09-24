@@ -1,0 +1,9 @@
+solve_sum:
+  description: >
+    Solve the sum function by using numbers given in input {a} and {b}. 
+    Use the Sum Tool to calculate the result.
+  expected_output: >
+    The result of the sum operation between {a} and {b}.
+    Return only the numeric result.
+    Example: if a=2 and b=3, return 5.
+  agent: maths_agent
