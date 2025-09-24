@@ -3,6 +3,9 @@ from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
 from typing import List
 from crewai_tools import SerperDevTool
+from flow_rag.tools.custom_tool import MyCustomTool
+from crewai.llm import LLM
+import os
 
 
 @CrewBase
@@ -17,9 +20,18 @@ class RagCrew:
     
     @agent
     def rag_agent(self) -> Agent:
+        # Configurazione Azure OpenAI LLM
+        azure_llm = LLM(
+            model="azure/gpt-4o",
+            api_key=os.getenv("AZURE_API_KEY"),
+            base_url=os.getenv("AZURE_API_BASE"),
+            api_version=os.getenv("AZURE_API_VERSION", "2024-12-01-preview")
+        )
+        
         return Agent(
             config=self.agents_config["rag_agent"],  
-            tools=[SerperDevTool()]  # inserisci tool rag
+            tools=[SerperDevTool(), MyCustomTool()],
+            llm=azure_llm
         )
 
 

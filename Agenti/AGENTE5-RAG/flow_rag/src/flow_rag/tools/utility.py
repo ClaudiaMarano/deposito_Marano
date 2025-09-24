@@ -6,6 +6,9 @@ from pathlib import Path
 from typing import List
 from langchain_community.vectorstores import FAISS
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_core.runnables import RunnablePassthrough
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
 
 @dataclass
 class Settings:
@@ -119,3 +122,41 @@ def load_or_build_vectorstore(
 
     chunks = split_documents(docs, settings)
     return build_faiss_vectorstore(chunks, embeddings, settings.persist_dir)
+
+def make_retriever(vector_store: FAISS, settings: Settings):
+    """
+    Configura il retriever. Con 'mmr' otteniamo risultati meno ridondanti e più coprenti.
+    """
+    if settings.search_type == "mmr":
+        return vector_store.as_retriever(
+            search_type="mmr",
+            search_kwargs={
+                "k": settings.k,
+                "fetch_k": settings.fetch_k,
+                "lambda_mult": settings.mmr_lambda,
+            },
+        )
+    else:
+        return vector_store.as_retriever(
+            search_type="similarity",
+            search_kwargs={"k": settings.k},
+        )
+
+def format_docs_for_prompt(docs: List[Document]) -> str:
+    """
+    Prepara il contesto per il prompt, includendo citazioni [source].
+    """
+    lines = []
+    for i, d in enumerate(docs, start=1):
+        src = d.metadata.get("source", f"doc{i}")
+        lines.append(f"[source:{src}] {d.page_content}")
+    return "\n\n".join(lines)
+
+
+
+def get_contexts_for_question(retriever, question: str, k: int) -> List[str]:
+    """Ritorna i testi dei top-k documenti (chunk) usati come contesto."""
+    docs = retriever.invoke(question)[:k]
+    return [d.page_content for d in docs]
+
+

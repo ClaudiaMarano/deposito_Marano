@@ -1,8 +1,8 @@
 rag_task:
   description: >
-    Retrieve information from the provided context {context} . 
-    Eventually, retrieve information from web if needed.
-    Merge the retrieved information from web and context to answer the question {query}.
+    Retrieve information from the provided context . 
+    Moreover, retrieve information from web and merge the retrieved information from web and context 
+    to answer the question {query}. Returns also links to the sources used to answer the question.
 
   expected_output: >
     An answer related to the question: {query}.

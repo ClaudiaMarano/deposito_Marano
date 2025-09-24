@@ -8,34 +8,23 @@ from crewai.flow import Flow, listen, start, router, or_
 from flow_rag.crews.rag_crew.rag_crew import RagCrew
 from dotenv import load_dotenv
 from litellm import completion
-from tools.utils import (
-    SETTINGS,
-    get_embeddings,
-    load_documents_from_folder,
-    load_or_build_vectorstore
-)
 
-
-load_dotenv()
+load_dotenv(dotenv_path="Agenti\AGENTE5-RAG\flow_rag\.env")
 
 class RagState(BaseModel):
     query : str = ""
     topic : str = " Rivoluzione francese " # topic del documento 
     answer : str = ""
-    # threshold
     
 
 class RagAgentFlow(Flow[RagState]):
     model = "azure/gpt-4o"
-
+    
     @start()
-    def inizialize_settings(self):
-        embeddings = get_embeddings(SETTINGS)
-        docs = load_documents_from_folder("./data") # cambia nome cartella
-        vector_store = load_or_build_vectorstore(SETTINGS, embeddings, docs)
-        
+    def start_flow(self):
+        print("Starting flow..")
 
-    @listen(or_(inizialize_settings, "relevant_failure"))
+    @listen(or_(start_flow, "relevant_failure"))
     def get_user_query(self):
         query = input(" Fammi una domanda: ")
         self.state.query = query
@@ -72,6 +61,8 @@ class RagAgentFlow(Flow[RagState]):
     # Se la domanda è pertinente al contesto, viene effettuata la ricerca tramite rag
     def rag_search_and_answer(self):
         print("Generating rag answer...")
+        
+        # Now pass both query and context to the crew
         result = (
             RagCrew()
             .crew()
@@ -87,7 +78,9 @@ class RagAgentFlow(Flow[RagState]):
     @listen(rag_search_and_answer)
     def save_answer(self):
         print("Saving answer")
-        with open("answer.md", "w") as f:
+        import os
+        os.makedirs("output", exist_ok=True)
+        with open("output/answer.md", "w") as f:
             f.write(self.state.answer)
 
 
