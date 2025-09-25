@@ -1,0 +1,96 @@
+user_input,retrieved_contexts,response,reference,answer_relevancy,faithfulness,context_recall,context_precision
+Quando fu adottato il calendario rivoluzionario e come erano chiamati i mesi?,"['## Cultura politica\n- **Feste civiche** (Federazione, Essere Supremo).\n- Nuove forme di **pedagogia repubblicana** e propaganda (stampe, giornali, teatri).\n\n## Calendario rivoluzionario\n- Adottato nel **1793** con **Anno I** retrodatato al **22 settembre 1792**.\n- Mesi in -**ario** (Vendemmiaio, Brumaio, Frimaio, …) e settimane di **10 giorni** (decadi).\n- Uso civile e amministrativo fino al 1805; tracce nella toponomastica e nei documenti.', '## Perché scoppiò nel 1789?\n- **Congiunzione** di cattivo raccolto, prezzi del pane alti, paralisi istituzionale e aspettative di riforma.\n- **Perdita di legittimità** della monarchia assoluta e **mobilitazione del Terzo Stato**.\n\n## Parole chiave\nAncien Régime · Terzo Stato · privilegi · debito · Illuminismo · opinione pubblica · Stati Generali · assemblea nazionale', '# Società e ruolo delle donne\n\n## Trasformazioni sociali\n- **Abolizione dei privilegi** e dei diritti feudali (agosto 1789).\n- Cittadinanza attiva/passiva (1791) e successivo suffragio universale maschile (1793, non applicato).\n\n## Donne e politica\n- **Marcia su Versailles** (5–6 ottobre 1789) guidata da donne del popolo.\n- **Olympe de Gouges** (1791): *Dichiarazione dei diritti della donna e della cittadina*.\n- **Società delle repubblicane rivoluzionarie** (1793), poi **vietate** e chiuse.\n- Partecipazione economica e nelle reti di approvvigionamento; repressione della militanza autonoma.', '## Esito e memoria\n- Sconfitta militare entro il 1796, ma ferite sociali profonde.\n- Dibattiti storici su entità delle violenze e natura del conflitto.\n\n## Religione nella Rivoluzione\n- **Giuramento** del clero (1791) divide “costituzionali” e “refrattari”.\n- **Decristianizzazione** (1793–1794) e culti civici; **Concordato** (1801) come successivo riassetto.']","Il calendario rivoluzionario francese fu ufficialmente adottato il **24 novembre 1793**, con **l'Anno I** retrodatato al **22 settembre 1792**, giorno dell'equinozio d'autunno e della proclamazione della Repubblica Francese. Esso fu utilizzato per fini civili e amministrativi fino al **1805**.
+
+I mesi del calendario rivoluzionario avevano nomi ispirati alle caratteristiche naturali o ai cicli agricoli delle stagioni:
+
+- **Autunno**:
+  - Vendemmiaio (*Vendémiaire*, 22 settembre - 21 ottobre)
+  - Brumaio (*Brumaire*, 22 ottobre - 20 novembre)
+  - Frimaio (*Frimaire*, 21 novembre - 20 dicembre)
+
+- **Inverno**:
+  - Nevoso (*Nivôse*, 21 dicembre - 19 gennaio)
+  - Piovoso (*Pluviôse*, 20 gennaio - 18 febbraio)
+  - Ventoso (*Ventôse*, 19 febbraio - 20 marzo)
+
+- **Primavera**:
+  - Germinale (*Germinal*, 21 marzo - 19 aprile)
+  - Fiorile (*Floréal*, 20 aprile - 19 maggio)
+  - Pratile (*Prairial*, 20 maggio - 18 giugno)
+
+- **Estate**:
+  - Messidoro (*Messidor*, 19 giugno - 18 luglio)
+  - Termidoro (*Thermidor*, 19 luglio - 17 agosto)
+  - Fruttidoro (*Fructidor*, 18 agosto - 16 settembre)
+
+Le settimane del calendario erano suddivise in ""decadi"" di **10 giorni**, eliminando il sistema di 7 giorni del calendario gregoriano. Questo calendario rappresentava un tentativo di rottura con il passato monarchico e religioso, promuovendo invece una simbologia repubblicana e naturalistica.
+
+**Fonti**:
+1. Contesto storico e nomi dei mesi: Documentazione culturale dalla conoscenza base.
+2. Nomi dei mesi e date precise: [Calendario della Rivoluzione Francese su Geopop](https://www.geopop.it/calendario-rivoluzione-francese-sistema-misura-tempo-mesi-giorni/) e [EdAtlas](https://www.edatlas.it/it/contenuti-digitali/documenti/04a918a6-aafd-4afb-909a-3c04d6e1f20a).","Fu istituito dalla Convenzione il 6 ottobre 1793, con effetto retroattivo dal 22 settembre 1792 (1º Vendémiaire, An I). I mesi erano: Vendémiaire, Brumaire, Frimaire, Nivôse, Pluviôse, Ventôse, Germinal, Floréal, Prairial, Messidor, Thermidor, Fructidor.",0.842416703607914,0.23076923076923078,0.5,0.9999999999
+Chi era Robespierre e quale ruolo ebbe nel Terrore?,"['# Protagonisti e figure chiave\n\n## Politici e leader\n- **Maximilien Robespierre**: leader giacobino, protagonista del Terrore (1793–1794).\n- **Georges Danton**: tribuno popolare, girondino poi indulgente; giustiziato nel 1794.\n- **Jean-Paul Marat**: giornalista dei *Amis du Peuple*, assassinato da Charlotte Corday (1793).\n- **Camille Desmoulins**: pubblicista, voce della moderazione nel 1793–1794.\n- **Brissot e i Girondini**: favorevoli alla guerra, deposti nel 1793.\n- **Napoleone Bonaparte**: generale emergente; con il **18 Brumaio** inaugura il Consolato.', '# Vandea, religione e conflitto civile\n\n## Origini della rivolta (1793)\n- Reclutamento forzato (leva), **Costituzione civile del clero**, difesa della religione e delle comunità locali.\n- Leadership locale (Contadini, notabili, preti refrattari) e sostegno realista.\n\n## Conflitto\n- Guerra **irregolare** con scontri e repressioni feroci (Colonne infernali).\n- Connessione con insurrezioni **federaliste** in altre regioni.\n\n## Esito e memoria\n- Sconfitta militare entro il 1796, ma ferite sociali profonde.\n- Dibattiti storici su entità delle violenze e natura del conflitto.', '## Perché scoppiò nel 1789?\n- **Congiunzione** di cattivo raccolto, prezzi del pane alti, paralisi istituzionale e aspettative di riforma.\n- **Perdita di legittimità** della monarchia assoluta e **mobilitazione del Terzo Stato**.\n\n## Parole chiave\nAncien Régime · Terzo Stato · privilegi · debito · Illuminismo · opinione pubblica · Stati Generali · assemblea nazionale', '# Società e ruolo delle donne\n\n## Trasformazioni sociali\n- **Abolizione dei privilegi** e dei diritti feudali (agosto 1789).\n- Cittadinanza attiva/passiva (1791) e successivo suffragio universale maschile (1793, non applicato).\n\n## Donne e politica\n- **Marcia su Versailles** (5–6 ottobre 1789) guidata da donne del popolo.\n- **Olympe de Gouges** (1791): *Dichiarazione dei diritti della donna e della cittadina*.\n- **Società delle repubblicane rivoluzionarie** (1793), poi **vietate** e chiuse.\n- Partecipazione economica e nelle reti di approvvigionamento; repressione della militanza autonoma.']","Maximilien de Robespierre è stato uno dei protagonisti della Rivoluzione Francese e una figura centrale del periodo noto come il ""Terrore"". Nato ad Arras nel 1758 e deceduto a Parigi nel 1794, Robespierre è stato un politico di spicco, noto per la sua adesione intransigente ai principi illuministici e per il ruolo che gli è valso il soprannome di ""l'Incorruttibile"". 
+
+Durante la Rivoluzione Francese, Robespierre è diventato il leader del Club dei Giacobini, una fazione politica radicale che sosteneva l'abolizione della monarchia e l'istituzione di una repubblica. Dopo la caduta della monarchia, nel 1793 ha assunto un ruolo predominante nel Comitato di Salute Pubblica, un organo esecutivo rivoluzionario che di fatto deteneva il potere dittatoriale durante il periodo del Terrore.
+
+Il ""Terrore"" è stato un periodo di circa un anno, dal 1793 al 1794, caratterizzato da una severa repressione dei nemici della Rivoluzione. Sotto la guida di Robespierre, il Comitato di Salute Pubblica ha applicato misure straordinarie, come la Legge sui Sospetti, che permetteva di perseguire chiunque fosse sospettato di attività controrivoluzionarie. Migliaia di persone furono processate e giustiziate, spesso tramite ghigliottina, incluse figure di spicco della Rivoluzione come Georges Danton e Camille Desmoulins. Robespierre giustificava il Terrore come una forma di ""giustizia rapida e infallibile"" necessaria per salvaguardare la Repubblica e i suoi ideali di libertà, uguaglianza e fraternità.
+
+Tuttavia, il suo governo divenne sempre più impopolare, soprattutto a causa delle purghe interne e delle esecuzioni sommarie. L'opposizione crescente culminò nel colpo di stato del 9 Termidoro (28 luglio 1794), che portò all'arresto e alla ghigliottina di Robespierre e dei suoi sostenitori.
+
+Robespierre è una figura controversa nella storia; mentre i suoi sostenitori lo vedono come un difensore intransigente dei principi repubblicani, i suoi detrattori lo ritengono responsabile del sanguinario regime del Terrore.
+
+Fonti:
+1. Informazioni tratte dal contesto storico nel database interno.
+2. Approfondimenti dalla pagina dedicata su Wikipedia ([Maximilien de Robespierre](https://it.wikipedia.org/wiki/Maximilien_de_Robespierre)) e altre fonti web come [focus.it](https://www.focus.it/cultura/storia/la-fine-incorruttibile-Robespierre).","Maximilien Robespierre fu un leader giacobino che, tra la fine del 1793 e il 1794, dominò il Comitato di Salute Pubblica e guidò il Terrore (5 settembre 1793 – 27 luglio 1794); fu deposto e ghigliottinato il 28 luglio 1794 (10 Thermidor An II).",0.874371751906361,0.13793103448275862,0.0,0.9999999999
+Quali furono le cause principali della Rivoluzione Francese?,"['# Cause della Rivoluzione francese\n\n## Sintesi\nLa Rivoluzione francese (1789–1799) nacque dall’intreccio di **crisi finanziaria**, **tensioni sociali**, **nuove idee politiche** e **congiunture internazionali**. La monarchia assoluta di Luigi XVI non riuscì a riformarsi in tempo, mentre l’opinione pubblica – alimentata dall’Illuminismo e dalla circolazione delle stampe – pretese rappresentanza e diritti.', '## Chiesa e religione\n- **Clero costituzionale** vs **refrattario** dopo la Costituzione civile (1790).\n- Leader della **decristianizzazione** (Hébertisti) e culto dell’**Essere Supremo** (1794).\n\n## Militari e diplomazia\n- **Dumouriez**, **Kléber**, **Hoche**, **Jourdan**, **Moreau**, **Pichegru**: generali delle guerre rivoluzionarie.', '## Strumenti politici\n- **Comitato di Salute Pubblica** e **Comitato di Sicurezza Generale** (1793).\n- **Sezioni** e **Comune di Parigi** come motori delle insurrezioni.', '# Guerre rivoluzionarie e coalizioni\n\n## Prima coalizione (1792–1797)\n- Nemici principali: **Austria** e **Prussia**, poi Gran Bretagna, Spagna, Piemonte-Sardegna, Olanda.\n- Battaglie chiave: **Valmy** (1792), **Jemappes** (1792), **Fleurus** (1794).\n- **Campagna d’Italia** (1796–1797): Bonaparte sconfigge gli austriaci; **Trattato di Campoformio**.\n\n## Seconda coalizione (1798–1802)\n- Contesto: **Spedizione d’Egitto** (1798) e ritorno di Bonaparte.\n- Successi e fallimenti alterni; crisi del Direttorio favorisce il **18 Brumaio** (1799).']","La Rivoluzione Francese (1789–1799) fu il risultato di un complesso intreccio di fattori politici, economici, sociali e culturali. Tra le cause principali si possono identificare:
+
+### Cause Politiche:
+- **Assolutismo monarchico**: La monarchia di Luigi XVI era caratterizzata da un potere centralizzato e dispotico, che sollevava crescente insoddisfazione tra le classi inferiori. Il re e Maria Antonietta personificavano il distacco dell'élite dal popolo.
+- **Illuminismo**: Gli ideali illuministi, come la libertà, l'uguaglianza e la fraternità, mettevano in discussione la legittimità del sistema politico-sociale vigente, spingendo le masse a pretendere una rappresentanza politica.
+
+### Cause Economiche:
+- **Crisi finanziaria dello Stato**: Un enorme deficit causato da guerre costose (come la Guerra dei Sette anni e la Rivoluzione americana), l'inefficienza nella raccolta delle tasse e il lusso esorbitante della corte francese.
+- **Carestie e inflazione**: Pessimi raccolti e epidemie che colpirono il bestiame aumentarono la povertà e i prezzi dei beni di prima necessità.
+
+### Cause Sociali:
+- **Stratificazione sociale e privilegi**: La Francia del Settecento era una società rigidamente divisa tra clero, nobiltà e Terzo Stato (98% della popolazione, composto da borghesi, lavoratori e contadini). I privilegi della nobiltà e dell'alto clero alimentavano il malcontento.
+- **Malcontento nel Terzo Stato**: La mancanza di rappresentanza e il peso delle tasse sproporzionate gravavano sui ceti meno abbienti, favorendo la nascita di movimenti prerivoluzionari.
+
+### Cause Culturali:
+- **Rinnovamento delle idee**: L'immaginario pubblico alimentato dall'Illuminismo e dalla circolazione delle stampe stimolava la critica verso l'ordine esistente.
+- **Sviluppo della nozione di diritti individuali**: La consapevolezza dei diritti e dei valori universali creò un terreno fertile per le richieste di cambiamento.
+
+### Contributo Internazionale:
+- **Inspirazione estera**: Il successo della Rivoluzione Americana influenzò indirettamente il desiderio di autodeterminazione e riforme democratiche.
+
+Fonti:
+1. Informazioni ottenute dalla base di conoscenza con focus sulle caratteristiche politiche, sociali e strumenti della Rivoluzione Francese.
+2. Approfondimenti trovati online presso [Studenti.it](https://www.studenti.it/rivoluzione-francese-cause-cronologia-eventi-protagonisti.html) e [Wikipedia sulla Rivoluzione Francese](https://it.wikipedia.org/wiki/Rivoluzione_francese).
+
+Questi punti offrono un quadro chiaro delle principali cause che portarono al crollo dell'Ancien Régime e alla nascita di nuovi assetti politici in Francia.","Cause principali: crisi finanziaria dello Stato (debiti e sistema fiscale iniquo), cattivi raccolti e aumento dei prezzi, squilibri sociali e privilegi dei ceti alti, influenza dell’Illuminismo e dell’esempio americano, impasse politica di Luigi XVI.",0.9013693428375378,0.18518518518518517,0.0,0.9999999999
+Quali furono le conseguenze della Rivoluzione Francese per la monarchia?,"['# Cause della Rivoluzione francese\n\n## Sintesi\nLa Rivoluzione francese (1789–1799) nacque dall’intreccio di **crisi finanziaria**, **tensioni sociali**, **nuove idee politiche** e **congiunture internazionali**. La monarchia assoluta di Luigi XVI non riuscì a riformarsi in tempo, mentre l’opinione pubblica – alimentata dall’Illuminismo e dalla circolazione delle stampe – pretese rappresentanza e diritti.', '## Chiesa e religione\n- **Clero costituzionale** vs **refrattario** dopo la Costituzione civile (1790).\n- Leader della **decristianizzazione** (Hébertisti) e culto dell’**Essere Supremo** (1794).\n\n## Militari e diplomazia\n- **Dumouriez**, **Kléber**, **Hoche**, **Jourdan**, **Moreau**, **Pichegru**: generali delle guerre rivoluzionarie.', '## Strumenti politici\n- **Comitato di Salute Pubblica** e **Comitato di Sicurezza Generale** (1793).\n- **Sezioni** e **Comune di Parigi** come motori delle insurrezioni.', '# Conseguenze in Francia e in Europa\n\n## In Francia\n- **Uguaglianza giuridica** e fine dei privilegi d’ordine.\n- **Nuova mappa amministrativa** (dipartimenti), riforma della giustizia, **sistema metrico**.\n- Ridisegno della **proprietà fondiaria** e del rapporto Stato-Chiesa.\n- **Esercito di cittadinanza** e mobilitazione nazionale.\n\n## In Europa\n- Diffusione di **codici** e riforme (poi consolidate dall’età napoleonica).\n- Nascita di **nazionalismi** e movimenti liberali.\n- Reazioni **controrivoluzionarie** e rifondazione dell’ordine con il **Congresso di Vienna** (1814–1815).\n\n## Eredità\n- Linguaggio dei **diritti** e della **sovranità popolare**; modello per movimenti ottocenteschi.']","Le conseguenze della Rivoluzione Francese per la monarchia furono drammatiche e significative, portando alla fine dell'antico regime monarchico e alla trasformazione profonda del sistema politico e sociale francese.
+
+### Conseguenze principali:
+1. **Abolizione della Monarchia Assoluta e Fine dell'Antico Regime (Ancien Régime)**:
+   La Rivoluzione Francese si concluse con l'abolizione della monarchia assoluta dei Borboni. Questo avvenne formalmente il 21 settembre 1792, quando la Convenzione Nazionale proclamò ufficialmente la Repubblica Francese. Ciò segnò la fine di secoli di monarchia ereditaria in Francia.
+
+2. **Esecuzione di Luigi XVI**:
+   Uno degli episodi più simbolici fu l'esecuzione di re Luigi XVI, avvenuta il 21 gennaio 1793 sulla ghigliottina. Lo stesso destino toccò a sua moglie Maria Antonietta. Questa fase rifletté un netto rifiuto del sistema monarchico e l'affermazione dei principi rivoluzionari.
+
+3. **Nascita della Prima Repubblica**:
+   L'adozione di un nuovo sistema repubblicano sostituì il potere monarchico. La Prima Repubblica Francese fu caratterizzata da nuovi principi di uguaglianza, libertà e fraternità, sanciti dalla Dichiarazione dei Diritti dell’Uomo e del Cittadino.
+
+4. **Eliminazione dei Privilegi Aristocratici e Riforme Sociali**:
+   La rivoluzione abolì i privilegi del clero e della nobiltà, riformando le basi sociali ed economiche della Francia. L’autorità tradizionale della monarchia fu sostituita con concetti moderni di sovranità popolare e partecipazione democratica.
+
+5. **Riforme Giuridiche e Politiche**:
+   La monarchia fu rimpiazzata da una struttura politica basata sui principi della separazione dei poteri e sulla rappresentanza. Furono introdotte nuove istituzioni, nuove leggi e, soprattutto, un nuovo sistema amministrativo che includeva la suddivisione della Francia in dipartimenti.
+
+6. **Effetti Internazionali**:
+   Sul piano internazionale, altri regni in Europa considerarono ciò che accadde in Francia come un pericolo per le loro monarchie. Tuttavia, la Rivoluzione ispirò anche movimenti liberali e nazionalisti in altri paesi, contribuendo alla diffusione delle idee democratiche e repubblicane.
+
+### Eredità:
+La fine della monarchia come una struttura inamovibile e predestinata aprì la strada a dibattiti sulla democrazia, sui diritti umani e sui modelli politici moderni. La Rivoluzione Francese e l'abolizione della monarchia non solo segnarono un punto di non ritorno nella storia francese, ma influenzarono l’intero continente europeo.
+
+Fonti:
+- Contesto fornito dai dati della mia knowledge base.
+- Approfondimenti aggiuntivi da fonti web come ""La Rivoluzione Francese - Wikipedia"" e ""Skuola.net"".",La monarchia fu abolita il 21 settembre 1792 e il giorno seguente fu proclamata la Repubblica; Luigi XVI venne giustiziato il 21 gennaio 1793: cadde l’Ancien Régime.,0.9044758629839827,0.5416666666666666,0.0,0.0

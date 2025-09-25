@@ -28,11 +28,10 @@ from PyPDF2 import PdfReader
 # --- RAGAS ---
 from ragas import EvaluationDataset, evaluate
 from ragas.metrics import answer_correctness  # usa questa solo se hai ground_truth
-from ragas.metrics import answer_relevancy  # pertinenza della risposta vs domanda
+from ragas.metrics import AnswerRelevancy  # pertinenza della risposta vs domanda
 from ragas.metrics import context_precision  # "precision@k" sui chunk recuperati
 from ragas.metrics import context_recall  # copertura dei chunk rilevanti
 from ragas.metrics import faithfulness  # ancoraggio della risposta al contesto
-
 # =========================
 # Configurazione
 # =========================
@@ -41,6 +40,39 @@ load_dotenv()
 
 @dataclass
 class Settings:
+    """Configuration container for the RAG pipeline.
+
+    Attributes
+    ----------
+    persist_dir : str
+        Directory where the FAISS index is persisted.
+    chunk_size : int
+        Maximum number of characters per text chunk.
+    chunk_overlap : int
+        Number of overlapping characters between consecutive chunks.
+    search_type : str
+        Retrieval search strategy, either "mmr" or "similarity".
+    k : int
+        Number of final retrieved documents.
+    fetch_k : int
+        Number of candidate documents for MMR retrieval.
+    mmr_lambda : float
+        Trade-off between diversity and similarity for MMR (0..1).
+    endpoint : str | None
+        Azure OpenAI endpoint URL.
+    subscription_key : str | None
+        Azure OpenAI API key.
+    api_version : str
+        Azure OpenAI API version.
+    model_name_emb : str
+        Logical embedding model name.
+    deployment_emb : str
+        Azure deployment name for embeddings.
+    model_name_chat : str
+        Logical chat model name.
+    deployment_chat : str
+        Azure deployment name for chat completions.
+    """
     # Persistenza FAISS
     persist_dir: str = "faiss_index"
     # Text splitting
@@ -64,15 +96,23 @@ class Settings:
 
 SETTINGS = Settings()
 
-
 # =========================
 # Componenti di base
 # =========================
 
 
 def get_embeddings(settings: Settings) -> AzureOpenAIEmbeddings:
-    """
-    Restituisce un client di Azure configurato.
+    """Create an Azure OpenAI embeddings client.
+
+    Parameters
+    ----------
+    settings : Settings
+        Global configuration.
+
+    Returns
+    -------
+    AzureOpenAIEmbeddings
+        Configured embeddings client.
     """
     return AzureOpenAIEmbeddings(
         model=settings.deployment_emb,
@@ -82,12 +122,22 @@ def get_embeddings(settings: Settings) -> AzureOpenAIEmbeddings:
     )
 
 def get_llm(settings: Settings):
-    """
-    Inizializza un ChatModel puntando a LM Studio (OpenAI-compatible).
-    Richiede:
-      - OPENAI_BASE_URL (es. http://localhost:1234/v1)
-      - OPENAI_API_KEY (placeholder qualsiasi, es. "not-needed")
-      - LMSTUDIO_MODEL (nome del modello caricato in LM Studio)
+    """Initialize a chat LLM bound to Azure OpenAI.
+
+    Parameters
+    ----------
+    settings : Settings
+        Global configuration.
+
+    Returns
+    -------
+    BaseChatModel
+        LangChain chat model instance.
+
+    Raises
+    ------
+    RuntimeError
+        If mandatory Azure endpoint, key, or model settings are missing.
     """
     # base_url = os.getenv("OPENAI_BASE_URL")
     # api_key = os.getenv("OPENAI_API_KEY")
@@ -110,102 +160,18 @@ def get_llm(settings: Settings):
         api_key=settings.subscription_key,
     )
 
-def simulate_corpus() -> List[Document]:
-    """
-    Crea un piccolo corpus di documenti in inglese con metadati e 'source' per citazioni.
-    """
-    docs = [
-        Document(
-            page_content=(
-                "LangChain is a framework that helps developers build applications "
-                "powered by Large Language Models (LLMs). It provides chains, agents, "
-                "prompt templates, memory, and integrations with vector stores."
-            ),
-            metadata={"id": "doc1", "source": "intro-langchain.md"},
-        ),
-        Document(
-            page_content=(
-                "FAISS is a library for efficient similarity search and clustering of dense vectors. "
-                "It supports exact and approximate nearest neighbor search and scales to millions of vectors."
-            ),
-            metadata={"id": "doc2", "source": "faiss-overview.md"},
-        ),
-        Document(
-            page_content=(
-                "Sentence-transformers like all-MiniLM-L6-v2 produce sentence embeddings suitable "
-                "for semantic search, clustering, and information retrieval. The embedding size is 384."
-            ),
-            metadata={"id": "doc3", "source": "embeddings-minilm.md"},
-        ),
-        Document(
-            page_content=(
-                "A typical RAG pipeline includes indexing (load, split, embed, store) and "
-                "retrieval+generation. Retrieval selects the most relevant chunks, and the LLM produces "
-                "an answer grounded in those chunks."
-            ),
-            metadata={"id": "doc4", "source": "rag-pipeline.md"},
-        ),
-        Document(
-            page_content=(
-                "Maximal Marginal Relevance (MMR) balances relevance and diversity during retrieval. "
-                "It helps avoid redundant chunks and improves coverage of different aspects."
-            ),
-            metadata={"id": "doc5", "source": "retrieval-mmr.md"},
-        ),
-    ]
-    return docs
-
-def simulate_france_corpus() -> List[Document]:
-    """
-    Crea un piccolo corpus di documenti sulla Francia, la sua capitale e alcune opere e chiese famose.
-    """
-    docs = [
-        Document(
-            page_content=(
-                "La Francia è un paese situato nell'Europa occidentale. Confina con diversi paesi tra cui "
-                "Germania, Italia, Spagna e Belgio. È famosa per la sua cucina, la moda, la storia e la cultura."
-                "La capitale della Francia è Berlino."
-            ),
-            metadata={"id": "fr_doc1", "source": "overview-france.md"},
-        ),
-        Document(
-            page_content=(
-                "Berlino è la capitale della Francia e si parla la lingua francese, conosciuta come la 'Ville Lumière'. È un importante centro "
-                "culturale, economico e politico. Tra le sue attrazioni principali vi sono la Torre Eiffel, "
-                "il Museo del Louvre e la Cattedrale di Notre-Dame."
-            ),
-            metadata={"id": "fr_doc2", "source": "paris.md"},
-        ),
-        Document(
-            page_content=(
-                "Il Museo del Louvre è uno dei più grandi e importanti musei d'arte del mondo. "
-                "Ospita opere come la Gioconda di Leonardo da Vinci e la Venere di Milo. "
-                "Si trova nel cuore di Berlino e accoglie milioni di visitatori ogni anno."
-            ),
-            metadata={"id": "fr_doc3", "source": "louvre.md"},
-        ),
-        Document(
-            page_content=(
-                "La Cattedrale di Notre-Dame de Paris è una delle più celebri chiese gotiche d'Europa. "
-                "Costruita tra il XII e il XIV secolo, è nota per le sue vetrate, i rosoni e le sculture. "
-                "Ha subito un grave incendio nel 2019, ma sono in corso importanti lavori di restauro."
-            ),
-            metadata={"id": "fr_doc4", "source": "notre-dame.md"},
-        ),
-        Document(
-            page_content=(
-                "Un'altra chiesa iconica è la Basilica del Sacro Cuore (Sacré-Cœur), situata sulla collina di Montmartre. "
-                "È visibile da molte parti della città e rappresenta un punto panoramico famoso. "
-                "Lo stile architettonico è romano-bizantino."
-            ),
-            metadata={"id": "fr_doc5", "source": "sacre-coeur.md"},
-        ),
-    ]
-    return docs
-
 def load_documents_from_folder(folder_path: str) -> List[Document]:
-    """
-    Carica tutti i file di testo da una cartella come Documenti.
+    """Load text and PDF files within a folder as LangChain documents.
+
+    Parameters
+    ----------
+    folder_path : str
+        Path to the folder containing `.txt`, `.md`, or `.pdf` files.
+
+    Returns
+    -------
+    list[Document]
+        Documents with `page_content` and `source` metadata.
     """
     docs = []
     for file_path in Path(folder_path).rglob("*"):
@@ -227,8 +193,19 @@ def load_documents_from_folder(folder_path: str) -> List[Document]:
     return docs
 
 def split_documents(docs: List[Document], settings: Settings) -> List[Document]:
-    """
-    Applica uno splitting robusto ai documenti per ottimizzare il retrieval.
+    """Split documents into overlapping chunks for retrieval.
+
+    Parameters
+    ----------
+    docs : list[Document]
+        Input documents to split.
+    settings : Settings
+        Chunking configuration.
+
+    Returns
+    -------
+    list[Document]
+        Chunked documents suitable for vector indexing.
     """
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=settings.chunk_size,
@@ -251,8 +228,21 @@ def split_documents(docs: List[Document], settings: Settings) -> List[Document]:
 def build_faiss_vectorstore(
     chunks: List[Document], embeddings: AzureOpenAIEmbeddings, persist_dir: str
 ) -> FAISS:
-    """
-    Costruisce da zero un FAISS index (IndexFlatL2) e lo salva su disco.
+    """Build a FAISS vector store from chunks and persist it to disk.
+
+    Parameters
+    ----------
+    chunks : list[Document]
+        Pre-split documents.
+    embeddings : AzureOpenAIEmbeddings
+        Embedding function for vectorization.
+    persist_dir : str
+        Directory to save the FAISS index and metadata.
+
+    Returns
+    -------
+    FAISS
+        Persisted FAISS vector store.
     """
     # Determina la dimensione dell'embedding
     vs = FAISS.from_documents(documents=chunks, embedding=embeddings)
@@ -264,8 +254,21 @@ def build_faiss_vectorstore(
 def load_or_build_vectorstore(
     settings: Settings, embeddings: AzureOpenAIEmbeddings, docs: List[Document]
 ) -> FAISS:
-    """
-    Tenta il load di un indice FAISS persistente; se non esiste, lo costruisce e lo salva.
+    """Load a persisted FAISS index or build it from documents.
+
+    Parameters
+    ----------
+    settings : Settings
+        Global configuration (controls persist directory).
+    embeddings : AzureOpenAIEmbeddings
+        Embedding function used by the vector store.
+    docs : list[Document]
+        Source documents to index if no persisted index is found.
+
+    Returns
+    -------
+    FAISS
+        Loaded or freshly built FAISS vector store.
     """
     persist_path = Path(settings.persist_dir)
     index_file = persist_path / "index.faiss"
@@ -281,8 +284,19 @@ def load_or_build_vectorstore(
     return build_faiss_vectorstore(chunks, embeddings, settings.persist_dir)
 
 def make_retriever(vector_store: FAISS, settings: Settings):
-    """
-    Configura il retriever. Con 'mmr' otteniamo risultati meno ridondanti e più coprenti.
+    """Create a retriever from the vector store.
+
+    Parameters
+    ----------
+    vector_store : FAISS
+        Vector store that backs the retrieval.
+    settings : Settings
+        Retrieval configuration (search type and parameters).
+
+    Returns
+    -------
+    BaseRetriever
+        Configured retriever (MMR or similarity-based).
     """
     if settings.search_type == "mmr":
         return vector_store.as_retriever(
@@ -300,8 +314,17 @@ def make_retriever(vector_store: FAISS, settings: Settings):
         )
 
 def format_docs_for_prompt(docs: List[Document]) -> str:
-    """
-    Prepara il contesto per il prompt, includendo citazioni [source].
+    """Format retrieved documents into a prompt-ready string with sources.
+
+    Parameters
+    ----------
+    docs : list[Document]
+        Documents to be rendered into the context block.
+
+    Returns
+    -------
+    str
+        Concatenated context where each chunk is prefixed by its [source:].
     """
     lines = []
     for i, d in enumerate(docs, start=1):
@@ -310,8 +333,19 @@ def format_docs_for_prompt(docs: List[Document]) -> str:
     return "\n\n".join(lines)
 
 def ddgs_search(query: str, max_results: int = 5) -> List[str]:
-    """
-    Esegue una ricerca su DuckDuckGo e restituisce i risultati.
+    """Perform a DuckDuckGo search and return textual snippets with links.
+
+    Parameters
+    ----------
+    query : str
+        Search query.
+    max_results : int, default=5
+        Maximum number of results to fetch.
+
+    Returns
+    -------
+    list[str]
+        Strings formatted as "[source:<url>] <snippet>".
     """
     results = []
     with DDGS(verify=False) as ddgs:
@@ -321,8 +355,21 @@ def ddgs_search(query: str, max_results: int = 5) -> List[str]:
     return results
 
 def build_rag_chain(llm, retriever, web: bool = False):
-    """
-    Costruisce la catena RAG (retrieval -> prompt -> LLM) con citazioni e regole anti-hallucination.
+    """Create a RAG chain: retrieval -> prompt -> LLM.
+
+    Parameters
+    ----------
+    llm : BaseChatModel
+        LangChain chat model instance.
+    retriever : BaseRetriever
+        Backend retriever to fetch context chunks.
+    web : bool, default=False
+        If True, augment internal knowledge with DuckDuckGo results.
+
+    Returns
+    -------
+    Runnable
+        LCEL runnable that maps a question to an answer string.
     """
     system_prompt = (
         "Sei un assistente esperto. Rispondi in INGLESE.\n"
@@ -380,7 +427,22 @@ def build_rag_chain(llm, retriever, web: bool = False):
     return chain
 
 def get_contexts_for_question(retriever, question: str, k: int) -> List[str]:
-    """Ritorna i testi dei top-k documenti (chunk) usati come contesto."""
+    """Return the page contents of the top-k retrieved chunks.
+
+    Parameters
+    ----------
+    retriever : BaseRetriever
+        Retriever to query.
+    question : str
+        Natural language question used for retrieval.
+    k : int
+        Number of top documents to include.
+
+    Returns
+    -------
+    list[str]
+        Page contents of the retrieved chunks.
+    """
     docs = retriever.invoke(question)[:k]
     return [d.page_content for d in docs]
 
@@ -391,9 +453,28 @@ def build_ragas_dataset(
     k: int,
     ground_truth: dict[str, str] | None = None,
 ):
-    """
-    Esegue la pipeline RAG per ogni domanda e costruisce il dataset per Ragas.
-    Ogni riga contiene: question, contexts, answer, (opzionale) ground_truth.
+    """Run the RAG pipeline and build a dataset compatible with Ragas.
+
+    Each row contains: question, retrieved_contexts, response, and optionally
+    reference (ground truth).
+
+    Parameters
+    ----------
+    questions : list[str]
+        Questions to evaluate.
+    retriever : BaseRetriever
+        Retriever used to fetch contexts.
+    chain : Runnable
+        RAG LCEL chain that generates answers.
+    k : int
+        Number of contexts to include in the dataset for each question.
+    ground_truth : dict[str, str] | None
+        Optional mapping from question to reference answer.
+
+    Returns
+    -------
+    list[dict]
+        Ragas-compatible dataset rows.
     """
     dataset = []
     for q in questions:
@@ -413,14 +494,36 @@ def build_ragas_dataset(
     return dataset
 
 def rag_answer(question: str, chain) -> str:
-    """
-    Esegue la catena RAG per una singola domanda.
+    """Execute the RAG chain for a single question.
+
+    Parameters
+    ----------
+    question : str
+        User question.
+    chain : Runnable
+        RAG runnable that returns a string answer.
+
+    Returns
+    -------
+    str
+        Model-generated answer grounded in the provided context.
     """
     return chain.invoke(question)
 
 def execute_rag(settings: Settings, questions: List[str]) -> List[dict]:
-    """
-    Esegue l'intera pipeline RAG e restituisce le risposte.
+    """Run the end-to-end RAG pipeline over a list of questions.
+
+    Parameters
+    ----------
+    settings : Settings
+        Global configuration for embeddings, LLM, and retrieval.
+    questions : list[str]
+        Questions to be answered by the RAG system.
+
+    Returns
+    -------
+    list[dict]
+        List of {"question": str, "answer": str} pairs.
     """
     embeddings = get_embeddings(settings)
     llm = get_llm(settings)
@@ -440,24 +543,35 @@ def execute_rag(settings: Settings, questions: List[str]) -> List[dict]:
     return results
 
 def evaluate_rag(settings: Settings, questions: List[str]) -> EvaluationDataset:
-    """
-    Esegue la pipeline RAG e valuta con Ragas.
+    """Evaluate the RAG pipeline with Ragas metrics.
+
+    Parameters
+    ----------
+    settings : Settings
+        Global configuration for embeddings, LLM, and retrieval.
+    questions : list[str]
+        Questions used to build the evaluation dataset.
+
+    Returns
+    -------
+    pandas.DataFrame
+        DataFrame of per-sample metric results.
     """
     embeddings = get_embeddings(settings)
     llm = get_llm(settings)
 
     # Usa il corpus simulato o carica da cartella
     # docs = simulate_corpus()
-    docs = load_documents_from_folder("./data/EU_AI_ACT")
+    docs = load_documents_from_folder("src/rag_flow/data")
     vector_store = load_or_build_vectorstore(settings, embeddings, docs)
     retriever = make_retriever(vector_store, settings)
     chain = build_rag_chain(llm, retriever, web=False)
 
-
     ground_truth = {
-        questions[0]: "The three specialized crews in the AI Academy Report Generator and their specific roles in the pipeline are: 1. **Input Sanitizer Crew**: Improves or halts queries based on security validation. 2. **Analysis Crew**: Extracts project details and target audience from the sanitized query. 3. **Writer Crew**: Performs RAG retrieval and generates the final professional report with formatting.",
-        questions[1]: "The RAG integration works by performing semantic search and retrieval with the Qdrant vector database, enhancing contextual precision and recall during report generation. It uses RagTool methods like `search(query)` and `add_documents(documents)`. The two setup options are: 1. **Qdrant Cloud** – Create a cluster on Qdrant Cloud with URL and API key. 2. **Local Qdrant Server** – Run Qdrant via Docker locally (`docker run -p 6333:6333 qdrant/qdrant`).",
-        questions[2]: "The Sanitize Crew applies multiple layers of protection: - **Threat Detection**: Identifies prompt injection, filters inappropriate content, validates schema, and performs risk assessments. - **Data Privacy**: Avoids permanent storage, anonymizes sensitive data, uses HTTPS, and enforces access controls. - **Operational Security**: Secures API keys, rotates tokens, monitors anomalies, and applies rate limiting. The evaluation framework emphasizes testing with diverse inputs and monitoring metrics after prompt changes, but does not specify exact malicious input types beyond prompt injections and inappropriate material."
+        questions[0]: "Fu istituito dalla Convenzione il 6 ottobre 1793, con effetto retroattivo dal 22 settembre 1792 (1º Vendémiaire, An I). I mesi erano: Vendémiaire, Brumaire, Frimaire, Nivôse, Pluviôse, Ventôse, Germinal, Floréal, Prairial, Messidor, Thermidor, Fructidor.",
+        questions[1]: "Maximilien Robespierre fu un leader giacobino che, tra la fine del 1793 e il 1794, dominò il Comitato di Salute Pubblica e guidò il Terrore (5 settembre 1793 – 27 luglio 1794); fu deposto e ghigliottinato il 28 luglio 1794 (10 Thermidor An II).",
+        questions[2]: "Cause principali: crisi finanziaria dello Stato (debiti e sistema fiscale iniquo), cattivi raccolti e aumento dei prezzi, squilibri sociali e privilegi dei ceti alti, influenza dell’Illuminismo e dell’esempio americano, impasse politica di Luigi XVI.",
+        questions[3]: "La monarchia fu abolita il 21 settembre 1792 e il giorno seguente fu proclamata la Repubblica; Luigi XVI venne giustiziato il 21 gennaio 1793: cadde l’Ancien Régime."
     }
 
 
@@ -473,12 +587,9 @@ def evaluate_rag(settings: Settings, questions: List[str]) -> EvaluationDataset:
 
     evaluation_dataset = EvaluationDataset.from_list(dataset)
 
-    # Scegli le metriche
-    #answer_relevancy,
-    #faithfulness,
-    #context_recall,
-    #context_precision
-    metrics = [answer_relevancy,faithfulness, context_recall, context_precision]
+    # Scegli le metriche: answer_relevancy, faithfulness, context_recall, context_precision
+    answer_relevancy = AnswerRelevancy(strictness=1)
+    metrics = [answer_relevancy, faithfulness, context_recall, context_precision]
     # Aggiungi correctness solo se tutte le righe hanno ground_truth
     if all("ground_truth" in row for row in dataset):
         metrics.append(answer_correctness)
@@ -496,13 +607,19 @@ def evaluate_rag(settings: Settings, questions: List[str]) -> EvaluationDataset:
     print("\n=== DETTAGLIO PER ESEMPIO ===")
     print(df[cols].round(4).to_string(index=False))
 
-    df.to_csv("ragas_results.csv", index=False)
+    df.to_csv("./ragas_results.csv", index=False)
     print("Salvato: ragas_results.csv")
     return df
 
 def write_answers_to_file(results: List[dict], filename: str):
-    """
-    Scrive le risposte in un file di testo.
+    """Write question/answer pairs to a text file.
+
+    Parameters
+    ----------
+    results : list[dict]
+        List of {"question": str, "answer": str} objects.
+    filename : str
+        Output file path.
     """
     with open(filename, "w", encoding="utf-8") as f:
         for i, r in enumerate(results, start=1):
@@ -511,27 +628,24 @@ def write_answers_to_file(results: List[dict], filename: str):
             f.write(f"Q: {r['question']}\nA: {r['answer']}\n")
 
 
-# =========================
-# Esecuzione dimostrativa
-# =========================
+# ==========================
+#     Valutazione RAGAS 
+# ==========================
 
 
 def main():
+    """Entry point that runs a Ragas evaluation on predefined questions."""
     settings = SETTINGS
 
-    # Random questions about docuements.md in data/EU_AI_ACT folder
-    questions = [
-        "What are the three specialized crews in the AI Academy Report Generator and what specific role does each crew perform in the pipeline?",
-        
-        "How does the RAG (Retrieval-Augmented Generation) integration work with the Qdrant vector database, and what are the two setup options available?",
-        
-        "What security measures are implemented by the Sanitize Crew to detect and prevent threats, and what types of malicious inputs are tested in the evaluation framework?",
-    ]
-
-
-    # Esecizione Ragas
+    # Random questions about docuements.md in data/<docs-topic> folder
+    questions = ["Quando fu adottato il calendario rivoluzionario e come erano chiamati i mesi?",
+                 "Chi era Robespierre e quale ruolo ebbe nel Terrore?",
+                 "Quali furono le cause principali della Rivoluzione Francese?",
+                 "Quali furono le conseguenze della Rivoluzione Francese per la monarchia?"
+                 ]
+    # Ragas
     df = evaluate_rag(settings, questions)
-    print(df)    
+    print(df[['faithfulness', 'answer_relevancy', 'context_recall', 'context_precision']].round(4).to_string(index=False))    
 
 if __name__ == "__main__":
     main()

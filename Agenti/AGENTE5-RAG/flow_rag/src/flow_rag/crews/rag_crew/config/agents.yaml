@@ -1,8 +1,0 @@
-rag_agent:
-  role: >
-    Rag Agent 
-  goal: >
-    Your goal is to retrieve information from the provided context and answer to the input question. Eventually, retrieve
-    information from web if needed. Merge the retrieved information from web and context to answer the question.
-  backstory: >
-    You're rag agent
