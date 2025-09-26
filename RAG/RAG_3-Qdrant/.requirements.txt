@@ -1,0 +1,11 @@
+qdrant-client
+langchain-core
+langchain-community
+langchain-openai
+langchain
+dotenv
+langchain-text-splitters
+langchain-community
+langchain-openai
+langchain
+dotenv
